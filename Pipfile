@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 autopep8 = "*"
 flake8 = "*"
+paramiko = "*"
+remotezip = "*"
 
 [dev-packages]
 
