@@ -20,7 +20,7 @@ def getDecryptionCMD(device: str, version: str) -> str:
     return ' '.join(cmd)
 
 
-def getKernel(device: str, version: str) -> None:
+def downloadKernel(device: str, version: str) -> None:
     data = getVersionsForDevice(device)
     url = getVersionURL(version, data)
     downloadKernelFromURL(url)
@@ -40,22 +40,64 @@ def getOF32CMD() -> str:
     return ' '.join(cmd)
 
 
+def removeLocalKernel() -> None:
+    for path in Path().glob('*'):
+        if 'kernelcache' in path.name:
+            path.unlink()
+
+
+class Client:
+    def __init__(self, address: str, user: str, password: str) -> None:
+        self.address = address
+        self.user = user
+        self.password = password
+        self.ssh = paramiko.SSHClient()
+        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.ssh.connect(address, username=user, password=password)
+
+    def runCMD(self, cmd: str) -> tuple:
+        return self.ssh.exec_command(cmd)
+
+    def listDir(self, path: str) -> list:
+        sftp = self.ssh.open_sftp()
+        contents = sftp.listdir(path)
+        sftp.close()
+        return contents
+
+    def removeFile(self, path: str) -> None:
+        sftp = self.ssh.open_sftp()
+        sftp.unlink(path)
+        sftp.close()
+
+    def uploadFile(self, file: str, path: str) -> None:
+        sftp = self.ssh.open_sftp()
+        sftp.put(file, path)
+        sftp.close()
+
+    def removeKernel(self) -> None:
+        contents = self.listDir('OF32')
+        for line in contents:
+            if 'kernelcache' in line:
+                self.removeFile(f'OF32/{line}')
+
+
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> list:
-    getKernel(device, version)
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(address, username=user, password=password)
-    sftp = ssh.open_sftp()
-    sftp.put(findKernel(), 'OF32/kernelcache.encrypted')
-    ssh.exec_command(getDecryptionCMD(device, version))
-    (cmd_in, cmd_out, cmd_err) = ssh.exec_command(getOF32CMD())
-    offsets = [o for o in cmd_out]
-    sftp.unlink('OF32/kernelcache.encrypted')
-    sftp.unlink('OF32/kernelcache.decrypted')
-    sftp.close()
-    ssh.close()
-    Path(findKernel()).unlink()
-    return offsets
+    removeLocalKernel()
+    downloadKernel(device, version)
+    client = Client(address, user, password)
+    client.removeKernel()
+    client.uploadFile(findKernel(), 'OF32/kernelcache.encrypted')
+    client.runCMD(getDecryptionCMD(device, version))
+    (cmd_in, cmd_out, cmd_err) = client.runCMD(getOF32CMD())
+    output = [o for o in cmd_out]
+    if not output:
+        raise ValueError('We got no output from OF32!')
+    error = [e for e in cmd_err]
+    if error:
+        raise ValueError('An error occurred while getting offsets!')
+    client.removeKernel()
+    removeLocalKernel()
+    return output
 
 
 def parseOffsets(data: list) -> dict:
