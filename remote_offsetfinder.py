@@ -50,15 +50,28 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     ssh.exec_command(getDecryptionCMD(device, version))
     (cmd_in, cmd_out, cmd_err) = ssh.exec_command(getOF32CMD())
     offsets = [o for o in cmd_out]
+    sftp.unlink('OF32/kernelcache.encrypted')
+    sftp.unlink('OF32/kernelcache.decrypted')
     sftp.close()
     ssh.close()
+    Path(findKernel()).unlink()
     return offsets
+
+
+def parseOffsets(data: list) -> dict:
+    uname = data[3].split('"')[1]
+    info = {uname: []}
+    for line in data:
+        if 'pushOffset' in line:
+            line = line.split(';')[0][:-1].split('(')[1]
+            info[uname].append(line)
+    return info
 
 
 def main(args: list) -> None:
     if len(args) == 6:
         offsets = getOffsets(args[1], args[2], args[3], args[4], args[5])
-        print(offsets)
+        print(parseOffsets(offsets))
     else:
         print('Usage: <address> <user> <password> <device> <ios>')
 
