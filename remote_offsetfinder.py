@@ -29,13 +29,15 @@ def downloadKernel(device: str, version: str) -> None:
 def findKernel() -> str:
     for path in Path().glob('*'):
         if 'kernelcache' in path.name:
-            return path
+            return path.name
 
 
 def getOF32CMD() -> str:
     cmd = (
         'OF32/OF32',
-        'OF32/kernelcache.decrypted'
+        'OF32/kernelcache.decrypted',
+        '>',
+        'OF32/offsets.txt'
     )
     return ' '.join(cmd)
 
@@ -55,8 +57,12 @@ class Client:
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(address, username=user, password=password)
 
-    def runCMD(self, cmd: str) -> tuple:
-        return self.ssh.exec_command(cmd)
+    def runCMD(self, cmd: str) -> None:
+        (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
+        stdout = [out for out in cmd_out]
+        stderr = [err for err in cmd_err]
+        print(stdout)
+        print(stderr)
 
     def listDir(self, path: str) -> list:
         sftp = self.ssh.open_sftp()
@@ -80,6 +86,13 @@ class Client:
             if 'kernelcache' in line:
                 self.removeFile(f'OF32/{line}')
 
+    def readFile(self, path: str) -> list:
+        sftp = self.ssh.open_sftp()
+        with sftp.open(path) as f:
+            data = f.readlines()
+        sftp.close()
+        return data
+
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> list:
     removeLocalKernel()
@@ -88,16 +101,12 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.removeKernel()
     client.uploadFile(findKernel(), 'OF32/kernelcache.encrypted')
     client.runCMD(getDecryptionCMD(device, version))
-    (cmd_in, cmd_out, cmd_err) = client.runCMD(getOF32CMD())
-    output = [o for o in cmd_out]
-    if not output:
-        raise ValueError('We got no output from OF32!')
-    error = [e for e in cmd_err]
-    if error:
-        raise ValueError('An error occurred while getting offsets!')
+    client.runCMD(getOF32CMD())
     client.removeKernel()
+    offsets = client.readFile('OF32/offsets.txt')
+    client.ssh.close()
     removeLocalKernel()
-    return output
+    return offsets
 
 
 def parseOffsets(data: list) -> dict:
