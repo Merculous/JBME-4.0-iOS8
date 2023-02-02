@@ -1,29 +1,31 @@
 #!/usr/bin/env python3
 
+import json
 import sys
 
 import paramiko
 from pathlib import Path
 
-from api import downloadKernelFromURL, getVersionsForDevice, getVersionURL, getKeysForVersion
+import api
 
 
 def getDecryptionCMD(device: str, version: str) -> str:
-    data = getKeysForVersion(device, version)
-    cmd = (
-        '/usr/local/bin/xpwntool',
-        'OF32/kernelcache.encrypted',
-        'OF32/kernelcache.decrypted',
-        f'-iv {data["iv"]}',
-        f'-k {data["key"]}'
-    )
-    return ' '.join(cmd)
+    data = api.getKeysForVersion(device, version)
+    if data:
+        cmd = (
+            '/usr/local/bin/xpwntool',
+            'OF32/kernelcache.encrypted',
+            'OF32/kernelcache.decrypted',
+            f'-iv {data["iv"]}',
+            f'-k {data["key"]}'
+        )
+        return ' '.join(cmd)
 
 
 def downloadKernel(device: str, version: str) -> None:
-    data = getVersionsForDevice(device)
-    url = getVersionURL(version, data)
-    downloadKernelFromURL(url)
+    data = api.getDeviceData(device)
+    url = api.getVersionURL(version, data)
+    api.downloadKernelFromURL(url)
 
 
 def findKernel() -> str:
@@ -58,11 +60,8 @@ class Client:
         self.ssh.connect(address, username=user, password=password)
 
     def runCMD(self, cmd: str) -> None:
-        (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
-        stdout = [out for out in cmd_out]
-        stderr = [err for err in cmd_err]
-        print(stdout)
-        print(stderr)
+        if cmd:
+            self.ssh.exec_command(cmd)
 
     def listDir(self, path: str) -> list:
         sftp = self.ssh.open_sftp()
@@ -94,7 +93,18 @@ class Client:
         return data
 
 
-def getOffsets(address: str, user: str, password: str, device: str, version: str) -> list:
+def parseOffsets(data: list) -> dict:
+    if len(data) > 1:
+        uname = data[3].split('"')[1]
+        info = {uname: []}
+        for line in data:
+            if 'pushOffset' in line:
+                line = line.split(';')[0][:-1].split('(')[1]
+                info[uname].append(line)
+        return info
+
+
+def getOffsets(address: str, user: str, password: str, device: str, version: str) -> dict:
     removeLocalKernel()
     downloadKernel(device, version)
     client = Client(address, user, password)
@@ -106,25 +116,41 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     offsets = client.readFile('OF32/offsets.txt')
     client.ssh.close()
     removeLocalKernel()
+    return parseOffsets(offsets)
+
+
+def appendOffsetsJSON(path: Path, offsets: dict) -> None:
+    with open(path, 'r+') as f:
+        data = json.load(f)
+        data.update(offsets)
+        f.write(json.dumps(data))
+
+
+def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> list:
+    supported = api.getiOS8And9VersionsForDevice(device)
+    offsets = []
+    for version in supported:
+        version_offsets = getOffsets(address, user, password, device, version)
+        offsets.append(version_offsets)
     return offsets
 
 
-def parseOffsets(data: list) -> dict:
-    uname = data[3].split('"')[1]
-    info = {uname: []}
-    for line in data:
-        if 'pushOffset' in line:
-            line = line.split(';')[0][:-1].split('(')[1]
-            info[uname].append(line)
-    return info
+def getAllOffsets(address: str, user: str, password: str) -> None:
+    devices = api.getAllDevices()
+    all_offsets = []
+    for device in devices:
+        device = device['identifier']
+        offsets = getAllOffsetsForDevice(address, user, password, device)
+        if offsets:
+            all_offsets.append(offsets)
+    return all_offsets
 
 
 def main(args: list) -> None:
-    if len(args) == 6:
-        offsets = getOffsets(args[1], args[2], args[3], args[4], args[5])
-        print(parseOffsets(offsets))
+    if len(args) == 4:
+        getAllOffsets(args[1], args[2], args[3])
     else:
-        print('Usage: <address> <user> <password> <device> <ios>')
+        print('Usage: <address> <user> <password>')
 
 
 if __name__ == '__main__':

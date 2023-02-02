@@ -1,14 +1,20 @@
 
 import json
 from remotezip import RemoteZip
+from urllib.error import HTTPError
 from urllib.request import urlopen
 
 
 def getJSONData(url: str) -> dict:
-    return json.loads(urlopen(url).read())
+    try:
+        data = urlopen(url).read()
+    except HTTPError as e:
+        print(url, e)
+    else:
+        return json.loads(data)
 
 
-def getVersionsForDevice(device: str) -> dict:
+def getDeviceData(device: str) -> dict:
     url = f'https://api.ipsw.me/v4/device/{device}?type=ipsw'
     return getJSONData(url)
 
@@ -34,10 +40,28 @@ def downloadKernelFromURL(url: str) -> None:
 
 
 def getKeysForVersion(device: str, version: str) -> dict:
-    data = getVersionsForDevice(device)
+    data = getDeviceData(device)
     buildid = iOSToBuildid(version, data)
     url = f'https://api.ipsw.me/v4/keys/ipsw/{device}/{buildid}'
     keys = getJSONData(url)
-    for key in keys['keys']:
-        if key['image'] == 'Kernelcache':
-            return key
+    if keys:
+        for key in keys['keys']:
+            if key['image'] == 'Kernelcache':
+                return key
+    else:
+        print(f'ipsw.me does not have keys for values: {device} {version}')
+
+
+def getiOS8And9VersionsForDevice(device: str) -> list:
+    data = getDeviceData(device)
+    versions = []
+    for firmware in data['firmwares']:
+        version = firmware['version']
+        if version.startswith('8') or version.startswith('9'):
+            versions.append(version)
+    return versions
+
+
+def getAllDevices() -> dict:
+    url = 'https://api.ipsw.me/v4/devices'
+    return getJSONData(url)
