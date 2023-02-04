@@ -9,7 +9,7 @@ def getJSONData(url: str) -> dict:
     try:
         data = urlopen(url).read()
     except HTTPError as e:
-        print(url, e)
+        print('[*]', url, e)
     else:
         return json.loads(data)
 
@@ -44,13 +44,13 @@ def getKeysForVersion(device: str, version: str) -> dict:
     buildid = iOSToBuildid(version, data)
     url = f'https://api.ipsw.me/v4/keys/ipsw/{device}/{buildid}'
     keys = getJSONData(url)
-    print(f'Gettings keys for {device} {version}')
+    print(f'[*] Gettings keys for {device} {version}')
     if keys:
         for key in keys['keys']:
             if key['image'] == 'Kernelcache':
                 return key
     else:
-        print(f'ipsw.me does not have keys for values: {device} {version}')
+        print(f'[*] ipsw.me does not have keys for values: {device} {version}')
 
 
 def getiOS8And9VersionsForDevice(device: str) -> list:

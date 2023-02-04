@@ -63,8 +63,8 @@ class Client:
     def runCMD(self, cmd: str) -> None:
         if cmd:
             (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
-            print('stdout', [o for o in cmd_out])
-            print('stderr', [e for e in cmd_err])
+            print('STDOUT', [o for o in cmd_out])
+            print('STDERR', [e for e in cmd_err])
 
     def listDir(self, path: str) -> list:
         contents = self.sftp.listdir(path)
@@ -138,11 +138,12 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
     successfull = []
     for version in supported:
         version_offsets = getOffsets(address, user, password, device, version)
+        print('#'*100)
         if version_offsets:
             successfull.append(version)
             offsets.update(version_offsets)
     if successfull:
-        print(f'Successfully got offsets for versions: {successfull}')
+        print(f'[*] Successfully got offsets for: {successfull}')
         return offsets
 
 
