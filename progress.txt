@@ -1,0 +1,2 @@
+As of commit 360a6003e03f67faa66b2641e7e8da16ea280d06, so far I've tested
+iPhone4,1. Only versions that are successfull are 8.4.1, 8.4, and 8.3.
