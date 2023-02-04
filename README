@@ -1,0 +1,8 @@
+# Steps to get offsets
+1: ./get_jbme_resources.sh
+2: python3 -m venv venv
+3: . venv/bin/activate
+4: pip install pipenv
+5: pipenv install
+6: gh repo clone Merculous/OF32 (on remote machine)
+7: ./remote_offsetfinder.py address username password
