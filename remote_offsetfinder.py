@@ -126,10 +126,11 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
 
 
 def appendOffsetsJSON(path: Path, offsets: dict) -> None:
-    with open(path, 'r+') as f:
-        data = json.load(f)
-        data.update(offsets)
-        f.write(json.dumps(data))
+    with open(path) as r:
+        r_data = json.load(r)
+    r_data.update(offsets)
+    with open(path, 'w') as w:
+        json.dump(r_data, w)
 
 
 def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> dict:
@@ -160,7 +161,8 @@ def getAllOffsets(address: str, user: str, password: str) -> dict:
 
 def main(args: list) -> None:
     if len(args) == 4:
-        getAllOffsets(args[1], args[2], args[3])
+        offsets = getAllOffsets(args[1], args[2], args[3])
+        appendOffsetsJSON(Path('payload/offsets.json'), offsets)
     else:
         print('Usage: <address> <user> <password>')
 
