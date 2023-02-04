@@ -1,2 +1,6 @@
 As of commit 360a6003e03f67faa66b2641e7e8da16ea280d06, so far I've tested
 iPhone4,1. Only versions that are successfull are 8.4.1, 8.4, and 8.3.
+
+I've tried using latest commit from jndok (4c47ead0385f03924c77ac17f3af66f19dcd6b05)
+but for some reason instead of the above versions succeeding, literally all of them
+failed to get offsets. find_allproc() MUST be updated to get all of the offsets.
