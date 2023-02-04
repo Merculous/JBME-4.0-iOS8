@@ -154,6 +154,7 @@ def getAllOffsets(address: str, user: str, password: str) -> None:
         device = device['identifier']
         offsets = getAllOffsetsForDevice(address, user, password, device)
         if offsets:
+            print(f'[*] Adding offsets from device: {device}')
             appendOffsetsJSON(Path('payload/offsets.json'), offsets)
 
 
