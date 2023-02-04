@@ -148,21 +148,18 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
         return offsets
 
 
-def getAllOffsets(address: str, user: str, password: str) -> dict:
+def getAllOffsets(address: str, user: str, password: str) -> None:
     devices = api.getAllDevices()
-    all_offsets = {}
     for device in devices:
         device = device['identifier']
         offsets = getAllOffsetsForDevice(address, user, password, device)
         if offsets:
-            all_offsets.update(offsets)
-    return all_offsets
+            appendOffsetsJSON(Path('payload/offsets.json'), offsets)
 
 
 def main(args: list) -> None:
     if len(args) == 4:
-        offsets = getAllOffsets(args[1], args[2], args[3])
-        appendOffsetsJSON(Path('payload/offsets.json'), offsets)
+        getAllOffsets(args[1], args[2], args[3])
     else:
         print('Usage: <address> <user> <password>')
 
