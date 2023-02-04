@@ -58,6 +58,7 @@ class Client:
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(address, username=user, password=password)
+        self.sftp = self.ssh.open_sftp()
 
     def runCMD(self, cmd: str) -> None:
         if cmd:
@@ -66,20 +67,14 @@ class Client:
             print('stderr', [e for e in cmd_err])
 
     def listDir(self, path: str) -> list:
-        sftp = self.ssh.open_sftp()
-        contents = sftp.listdir(path)
-        sftp.close()
+        contents = self.sftp.listdir(path)
         return contents
 
     def removeFile(self, path: str) -> None:
-        sftp = self.ssh.open_sftp()
-        sftp.unlink(path)
-        sftp.close()
+        self.sftp.unlink(path)
 
     def uploadFile(self, file: str, path: str) -> None:
-        sftp = self.ssh.open_sftp()
-        sftp.put(file, path)
-        sftp.close()
+        self.sftp.put(file, path)
 
     def removeKernel(self) -> None:
         contents = self.listDir('OF32')
@@ -88,10 +83,8 @@ class Client:
                 self.removeFile(f'OF32/{line}')
 
     def readFile(self, path: str) -> list:
-        sftp = self.ssh.open_sftp()
-        with sftp.open(path) as f:
+        with self.sftp.open(path) as f:
             data = f.readlines()
-        sftp.close()
         return data
 
 
@@ -125,6 +118,7 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.removeKernel()
     print('[*] Reading offsets')
     offsets_raw = client.readFile('OF32/offsets.txt')
+    client.sftp.close()
     client.ssh.close()
     removeLocalKernel()
     print('[*] Parsing offsets')
@@ -141,11 +135,15 @@ def appendOffsetsJSON(path: Path, offsets: dict) -> None:
 def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> dict:
     supported = api.getiOS8And9VersionsForDevice(device)
     offsets = {}
+    successfull = []
     for version in supported:
         version_offsets = getOffsets(address, user, password, device, version)
         if version_offsets:
+            successfull.append(version)
             offsets.update(version_offsets)
-    return offsets
+    if successfull:
+        print(f'Successfully got offsets for versions: {successfull}')
+        return offsets
 
 
 def getAllOffsets(address: str, user: str, password: str) -> list:
