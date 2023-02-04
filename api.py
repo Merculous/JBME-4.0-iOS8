@@ -44,6 +44,7 @@ def getKeysForVersion(device: str, version: str) -> dict:
     buildid = iOSToBuildid(version, data)
     url = f'https://api.ipsw.me/v4/keys/ipsw/{device}/{buildid}'
     keys = getJSONData(url)
+    print(f'Gettings keys for {device} {version}')
     if keys:
         for key in keys['keys']:
             if key['image'] == 'Kernelcache':
@@ -58,7 +59,8 @@ def getiOS8And9VersionsForDevice(device: str) -> list:
     for firmware in data['firmwares']:
         version = firmware['version']
         if version.startswith('8') or version.startswith('9'):
-            versions.append(version)
+            if version not in versions:
+                versions.append(version)
     return versions
 
 

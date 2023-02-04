@@ -61,7 +61,9 @@ class Client:
 
     def runCMD(self, cmd: str) -> None:
         if cmd:
-            self.ssh.exec_command(cmd)
+            (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
+            print([o for o in cmd_out])
+            print([e for e in cmd_err])
 
     def listDir(self, path: str) -> list:
         sftp = self.ssh.open_sftp()
@@ -106,16 +108,22 @@ def parseOffsets(data: list) -> dict:
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> dict:
     removeLocalKernel()
+    print(f'[*] Downloading kernel for {device} {version}')
     downloadKernel(device, version)
     client = Client(address, user, password)
     client.removeKernel()
+    print('[*] Uploading kernel')
     client.uploadFile(findKernel(), 'OF32/kernelcache.encrypted')
+    print('[*] Decrypting kernel')
     client.runCMD(getDecryptionCMD(device, version))
+    print('[*] Running OF32')
     client.runCMD(getOF32CMD())
     client.removeKernel()
+    print('[*] Reading offsets')
     offsets = client.readFile('OF32/offsets.txt')
     client.ssh.close()
     removeLocalKernel()
+    print('[*] Parsing offsets')
     return parseOffsets(offsets)
 
 
@@ -132,10 +140,11 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
     for version in supported:
         version_offsets = getOffsets(address, user, password, device, version)
         offsets.append(version_offsets)
-    return offsets
+    if offsets:
+        return offsets
 
 
-def getAllOffsets(address: str, user: str, password: str) -> None:
+def getAllOffsets(address: str, user: str, password: str) -> list:
     devices = api.getAllDevices()
     all_offsets = []
     for device in devices:
