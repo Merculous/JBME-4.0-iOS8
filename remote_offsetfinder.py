@@ -62,8 +62,8 @@ class Client:
     def runCMD(self, cmd: str) -> None:
         if cmd:
             (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
-            print([o for o in cmd_out])
-            print([e for e in cmd_err])
+            print('stdout', [o for o in cmd_out])
+            print('stderr', [e for e in cmd_err])
 
     def listDir(self, path: str) -> list:
         sftp = self.ssh.open_sftp()
@@ -97,7 +97,7 @@ class Client:
 
 def parseOffsets(data: list) -> dict:
     if len(data) > 1:
-        uname = data[3].split('"')[1]
+        uname = data[0].split('"')[1]
         info = {uname: []}
         for line in data:
             if 'pushOffset' in line:
@@ -139,9 +139,9 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
     offsets = []
     for version in supported:
         version_offsets = getOffsets(address, user, password, device, version)
-        offsets.append(version_offsets)
-    if offsets:
-        return offsets
+        if version_offsets:
+            offsets.append(version_offsets)
+    return offsets
 
 
 def getAllOffsets(address: str, user: str, password: str) -> list:
