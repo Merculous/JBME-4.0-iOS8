@@ -103,7 +103,11 @@ def parseOffsets(data: list) -> dict:
             if 'pushOffset' in line:
                 line = line.split(';')[0][:-1].split('(')[1]
                 info[uname].append(line)
-        return info
+        if len(info[uname]) == 18:
+            print('[*] Parsing SUCCESS')
+            return info
+        else:
+            print('[*] Parsing FAILED')
 
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> dict:
@@ -120,11 +124,11 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.runCMD(getOF32CMD())
     client.removeKernel()
     print('[*] Reading offsets')
-    offsets = client.readFile('OF32/offsets.txt')
+    offsets_raw = client.readFile('OF32/offsets.txt')
     client.ssh.close()
     removeLocalKernel()
     print('[*] Parsing offsets')
-    return parseOffsets(offsets)
+    return parseOffsets(offsets_raw)
 
 
 def appendOffsetsJSON(path: Path, offsets: dict) -> None:
@@ -134,13 +138,13 @@ def appendOffsetsJSON(path: Path, offsets: dict) -> None:
         f.write(json.dumps(data))
 
 
-def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> list:
+def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> dict:
     supported = api.getiOS8And9VersionsForDevice(device)
-    offsets = []
+    offsets = {}
     for version in supported:
         version_offsets = getOffsets(address, user, password, device, version)
         if version_offsets:
-            offsets.append(version_offsets)
+            offsets.update(version_offsets)
     return offsets
 
 
