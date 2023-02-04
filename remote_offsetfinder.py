@@ -146,14 +146,14 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
         return offsets
 
 
-def getAllOffsets(address: str, user: str, password: str) -> list:
+def getAllOffsets(address: str, user: str, password: str) -> dict:
     devices = api.getAllDevices()
-    all_offsets = []
+    all_offsets = {}
     for device in devices:
         device = device['identifier']
         offsets = getAllOffsetsForDevice(address, user, password, device)
         if offsets:
-            all_offsets.append(offsets)
+            all_offsets.update(offsets)
     return all_offsets
 
 
