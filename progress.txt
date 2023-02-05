@@ -4,3 +4,6 @@ iPhone4,1. Only versions that are successfull are 8.4.1, 8.4, and 8.3.
 I've tried using latest commit from jndok (4c47ead0385f03924c77ac17f3af66f19dcd6b05)
 but for some reason instead of the above versions succeeding, literally all of them
 failed to get offsets. find_allproc() MUST be updated to get all of the offsets.
+
+Neat, the offsets needed to use HomeDepot jailbreak (iOS 8.4.1 version) via custom offsets for
+iPhone4,1 on 8.3 jailbreaks the device :P I did try iPhone5,2 on 8.4 but it isn't working, so far.

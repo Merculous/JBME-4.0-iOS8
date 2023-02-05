@@ -158,9 +158,24 @@ def getAllOffsets(address: str, user: str, password: str) -> None:
             appendOffsetsJSON(Path('payload/offsets.json'), offsets)
 
 
+def prepareHomeDepotFile(address: str, user: str, password: str, device: str, version: str) -> None:
+    data = getOffsets(
+        address,
+        user,
+        password,
+        device,
+        version
+    )
+    for uname, offsets in data.items():
+        offsets = offsets[:-5]
+    with open(f'{device}_{version}.txt', 'w') as f:
+        f.write('\n'.join(offsets))
+
+
 def main(args: list) -> None:
     if len(args) == 4:
-        getAllOffsets(args[1], args[2], args[3])
+        # getAllOffsets(args[1], args[2], args[3])
+        prepareHomeDepotFile(args[1], args[2], args[3], 'iPhone5,2', '8.4')
     else:
         print('Usage: <address> <user> <password>')
 
