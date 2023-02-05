@@ -125,12 +125,16 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     return parseOffsets(offsets_raw)
 
 
-def appendOffsetsJSON(path: Path, offsets: dict) -> None:
-    with open(path) as r:
-        r_data = json.load(r)
-    r_data.update(offsets)
-    with open(path, 'w') as w:
-        json.dump(r_data, w)
+def appendDataToJSONFile(path: Path, offsets: dict) -> None:
+    if path.is_file():
+        with open(path) as r:
+            r_data = json.load(r)
+        r_data.update(offsets)
+        with open(path, 'w') as w:
+            json.dump(r_data, w)
+    else:
+        with open(path, 'w') as f:
+            json.dump(offsets, f)
 
 
 def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> dict:
@@ -155,10 +159,10 @@ def getAllOffsets(address: str, user: str, password: str) -> None:
         offsets = getAllOffsetsForDevice(address, user, password, device)
         if offsets:
             print(f'[*] Adding offsets from device: {device}')
-            appendOffsetsJSON(Path('payload/offsets.json'), offsets)
+            appendDataToJSONFile(Path('payload/offsets.json'), offsets)
 
 
-def prepareHomeDepotFile(address: str, user: str, password: str, device: str, version: str) -> None:
+def prepareHomeDepotJSON(address: str, user: str, password: str, device: str, version: str) -> None:
     data = getOffsets(
         address,
         user,
@@ -168,14 +172,21 @@ def prepareHomeDepotFile(address: str, user: str, password: str, device: str, ve
     )
     for uname, offsets in data.items():
         offsets = offsets[:-5]
-    with open(f'{device}_{version}.txt', 'w') as f:
-        f.write('\n'.join(offsets))
+    offsets_dict = {
+        device: {
+            version: {
+                'uname': uname,
+                'offsets': offsets
+            }
+        }
+    }
+    appendDataToJSONFile(Path('HomeDepot.json'), offsets_dict)
 
 
 def main(args: list) -> None:
     if len(args) == 4:
         # getAllOffsets(args[1], args[2], args[3])
-        prepareHomeDepotFile(args[1], args[2], args[3], 'iPhone5,2', '8.4')
+        prepareHomeDepotJSON(args[1], args[2], args[3], 'iPhone5,2', '8.4')
     else:
         print('Usage: <address> <user> <password>')
 
