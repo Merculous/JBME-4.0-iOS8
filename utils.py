@@ -1,5 +1,6 @@
 
 import json
+import subprocess
 from pathlib import Path
 
 
@@ -23,3 +24,22 @@ def updateJSONFile(path: Path, data: dict) -> None:
     original = json.loads(readFile(path))
     original.update(data)
     writeFile(path, json.dumps(original))
+
+def appendFileToZPAQArchive(path: Path, archive: Path, method: int) -> None:
+    cmd = (
+        '/usr/bin/zpaq',
+        'a',
+        archive.name,
+        path.name,
+        f'-m{method}'
+    )
+    subprocess.run(cmd)
+
+def extractFileFromZPAQArchive(path: Path, archive: Path) -> None:
+    cmd = (
+        '/usr/bin/zpaq',
+        'x',
+        archive.name,
+        path.name
+    )
+    subprocess.run(cmd)

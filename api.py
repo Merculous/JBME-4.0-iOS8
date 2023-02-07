@@ -8,7 +8,7 @@ from urllib.request import urlopen
 import utils
 
 api_path = Path('api')
-api_path.mkdir()
+api_path.mkdir(exist_ok=True)
 
 
 def getDataFromURL(url: str) -> str:
@@ -52,12 +52,12 @@ def iOSToBuildid(version: str, data: dict) -> str:
             return firmware['buildid']
 
 
-def downloadKernelFromURL(url: str) -> None:
+def downloadKernelFromURL(url: str, path: Path) -> None:
     with RemoteZip(url) as f:
-        for path in f.filelist:
-            if 'kernelcache' in path.filename:
-                with open(path.filename, 'wb') as k:
-                    k.write(f.read(path.filename))
+        for image in f.filelist:
+            if 'kernelcache' in image.filename:
+                with open(path, 'wb') as k:
+                    k.write(f.read(image.filename))
 
 
 def getKeysForVersion(device: str, version: str) -> Path:

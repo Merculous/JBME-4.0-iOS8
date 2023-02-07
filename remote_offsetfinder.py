@@ -28,13 +28,9 @@ def downloadKernel(device: str, version: str) -> None:
     device_path = api.getDeviceData(device)
     data = utils.readJSONFile(device_path)
     url = api.getVersionURL(version, data)
-    api.downloadKernelFromURL(url)
-
-
-def findKernel() -> str:
-    for path in Path().glob('*'):
-        if 'kernelcache' in path.name:
-            return path.name
+    kernel_path = Path(f'kernels/{device}/{version}')
+    kernel_path.mkdir(exist_ok=True)
+    api.downloadKernelFromURL(url, f'{kernel_path.name}/kernelcache.encrypted')
 
 
 def getOF32CMD() -> str:
@@ -45,12 +41,6 @@ def getOF32CMD() -> str:
         'OF32/offsets.txt'
     )
     return ' '.join(cmd)
-
-
-def removeLocalKernel() -> None:
-    for path in Path().glob('*'):
-        if 'kernelcache' in path.name:
-            path.unlink()
 
 
 class Client:
@@ -80,10 +70,13 @@ class Client:
     def removeFile(self, path: str) -> None:
         self.sftp.unlink(path)
 
-    def uploadFile(self, file: str, path: str) -> None:
-        self.sftp.put(file, path)
+    def uploadFile(self, file: Path, path: str) -> None:
+        self.sftp.put(file.name, path)
 
-    def removeKernel(self) -> None:
+    def downloadFile(self, file: str, path: Path) -> None:
+        self.sftp.get(file, path.name)
+
+    def removeKernels(self) -> None:
         contents = self.listDir('OF32')
         for line in contents:
             if 'kernelcache' in line:
@@ -125,18 +118,20 @@ def prepareHomeDepotJSON(device: str, version: str, data: dict) -> dict:
 
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
-    removeLocalKernel()
     print(f'[*] Downloading kernel for {device} {version}')
     downloadKernel(device, version)
     client = Client(address, user, password)
-    client.removeKernel()
+    client.removeKernels()
     print('[*] Uploading kernel')
-    client.uploadFile(findKernel(), 'OF32/kernelcache.encrypted')
+    kernel_path = Path(f'kernels/{device}/{version}')
+    kernel_encrypted = Path(f'{kernel_path.name}/kernelcache.encrypted')
+    client.uploadFile(kernel_encrypted, 'OF32/kernelcache.encrypted')
     print('[*] Decrypting kernel')
     client.runCMD(getDecryptionCMD(device, version))
     print('[*] Running OF32')
     client.runCMD(getOF32CMD())
-    client.removeKernel()
+    client.downloadFile('OF32/kernelcache.encrypted', Path(f'{kernel_path}/kernelcache.decrypted'))
+    client.removeKernels()
     print('[*] Reading offsets')
     offsets_raw = client.readFile('OF32/offsets.txt')
     client.removeFile('OF32/offsets.txt')
@@ -144,7 +139,6 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.sftp.close()  # IMPORTANT
     client.ssh.close()  # IMPORTANT
     #################################
-    removeLocalKernel()
     print('[*] Parsing offsets')
     parsed_offests = parseOffsets(offsets_raw)
     if parsed_offests:
@@ -152,6 +146,8 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
         utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
         depot_offsets = prepareHomeDepotJSON(device, version, parsed_offests)
         utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
+    print('[*] Adding kernels to ZPAQ archive')
+    utils.appendFileToZPAQArchive(Path('kernels'), Path('kernels.zpaq'), 1)
     print('#'*100)
 
 
@@ -170,7 +166,8 @@ def getAllOffsets(address: str, user: str, password: str) -> None:
 
 def main(args: list) -> None:
     if len(args) == 4:
-        getAllOffsets(args[1], args[2], args[3])
+        # getAllOffsets(args[1], args[2], args[3])
+        getAllOffsetsForDevice(args[1], args[2], args[3], 'iPhone4,1')
     else:
         print('Usage: <address> <user> <password>')
 
