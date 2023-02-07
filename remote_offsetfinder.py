@@ -55,12 +55,14 @@ class Client:
         self.address = address
         self.user = user
         self.password = password
+        #################################
         self.ssh = paramiko.SSHClient()
+        #################################
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        # ALWAYS check if self.ssh and self.sftp get closed when using this object. #
         self.ssh.connect(address, username=user, password=password)
+        #################################
         self.sftp = self.ssh.open_sftp()
-        #############################################################################
+        #################################
 
     def runCMD(self, cmd: str) -> None:
         if cmd:
