@@ -57,8 +57,10 @@ class Client:
         self.password = password
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        # ALWAYS check if self.ssh and self.sftp get closed when using this object. #
         self.ssh.connect(address, username=user, password=password)
         self.sftp = self.ssh.open_sftp()
+        #############################################################################
 
     def runCMD(self, cmd: str) -> None:
         if cmd:
@@ -145,8 +147,10 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     print('[*] Reading offsets')
     offsets_raw = client.readFile('OF32/offsets.txt')
     client.removeFile('OF32/offsets.txt')
-    client.sftp.close()
-    client.ssh.close()
+    #################################
+    client.sftp.close()  # IMPORTANT
+    client.ssh.close()  # IMPORTANT
+    #################################
     removeLocalKernel()
     print('[*] Parsing offsets')
     parsed_offests = parseOffsets(offsets_raw)
