@@ -103,7 +103,33 @@ def parseOffsets(data: list) -> dict:
             print('[*] Parsing FAILED')
 
 
-def getOffsets(address: str, user: str, password: str, device: str, version: str) -> dict:
+def appendDataToJSONFile(path: Path, offsets: dict) -> None:
+    if path.is_file():
+        with open(path) as r:
+            r_data = json.load(r)
+        r_data.update(offsets)
+        with open(path, 'w') as w:
+            json.dump(r_data, w)
+    else:
+        with open(path, 'w') as f:
+            json.dump(offsets, f)
+
+
+def prepareHomeDepotJSON(device: str, version: str, data: dict) -> dict:
+    for uname, offsets in data.items():
+        offsets = offsets[:-5]
+    offsets_dict = {
+        device: {
+            version: {
+                'uname': uname,
+                'offsets': offsets
+            }
+        }
+    }
+    return offsets_dict
+
+
+def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
     removeLocalKernel()
     print(f'[*] Downloading kernel for {device} {version}')
     downloadKernel(device, version)
@@ -118,75 +144,35 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.removeKernel()
     print('[*] Reading offsets')
     offsets_raw = client.readFile('OF32/offsets.txt')
+    client.removeFile('OF32/offsets.txt')
     client.sftp.close()
     client.ssh.close()
     removeLocalKernel()
     print('[*] Parsing offsets')
-    return parseOffsets(offsets_raw)
+    parsed_offests = parseOffsets(offsets_raw)
+    if parsed_offests:
+        print('[*] Writing offsets to json files')
+        appendDataToJSONFile(Path('payload/offsets.json'), parsed_offests)
+        depot_offsets = prepareHomeDepotJSON(device, version, parsed_offests)
+        appendDataToJSONFile(Path('HomeDepot.json'), depot_offsets)
+    print('#'*100)
 
 
-def appendDataToJSONFile(path: Path, offsets: dict) -> None:
-    if path.is_file():
-        with open(path) as r:
-            r_data = json.load(r)
-        r_data.update(offsets)
-        with open(path, 'w') as w:
-            json.dump(r_data, w)
-    else:
-        with open(path, 'w') as f:
-            json.dump(offsets, f)
-
-
-def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> dict:
+def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) -> None:
     supported = api.getiOS8And9VersionsForDevice(device)
-    offsets = {}
-    successfull = []
     for version in supported:
-        version_offsets = getOffsets(address, user, password, device, version)
-        print('#'*100)
-        if version_offsets:
-            successfull.append(version)
-            offsets.update(version_offsets)
-    if successfull:
-        print(f'[*] Successfully got offsets for: {successfull}')
-        return offsets
+        getOffsets(address, user, password, device, version)
 
 
 def getAllOffsets(address: str, user: str, password: str) -> None:
     devices = api.getAllDevices()
     for device in devices:
-        device = device['identifier']
-        offsets = getAllOffsetsForDevice(address, user, password, device)
-        if offsets:
-            print(f'[*] Adding offsets from device: {device}')
-            appendDataToJSONFile(Path('payload/offsets.json'), offsets)
-
-
-def prepareHomeDepotJSON(address: str, user: str, password: str, device: str, version: str) -> None:
-    data = getOffsets(
-        address,
-        user,
-        password,
-        device,
-        version
-    )
-    for uname, offsets in data.items():
-        offsets = offsets[:-5]
-    offsets_dict = {
-        device: {
-            version: {
-                'uname': uname,
-                'offsets': offsets
-            }
-        }
-    }
-    appendDataToJSONFile(Path('HomeDepot.json'), offsets_dict)
+        getAllOffsetsForDevice(address, user, password, device['identifier'])
 
 
 def main(args: list) -> None:
     if len(args) == 4:
-        # getAllOffsets(args[1], args[2], args[3])
-        prepareHomeDepotJSON(args[1], args[2], args[3], 'iPhone5,2', '8.4')
+        getAllOffsets(args[1], args[2], args[3])
     else:
         print('Usage: <address> <user> <password>')
 
