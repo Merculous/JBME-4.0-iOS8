@@ -2,4 +2,6 @@ This isn't really required however it'll possibly save time.
 Once we save the kernel's, we could keep all of them inside a
 compressed image. This will at least enable the user to not
 need to download a kernel each time, and rather use one that's
-already downloaded and stored.
+already downloaded and stored. (WIP)
+
+Tidy up "api" folder.
