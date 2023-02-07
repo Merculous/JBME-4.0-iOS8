@@ -19,12 +19,14 @@ def getDataFromURL(url: str) -> str:
     else:
         return data
 
+def getJSONDataFromURL(url: str) -> dict:
+    return json.loads(getDataFromURL(url))
 
 def getAllDevices() -> Path:
     url = 'https://api.ipsw.me/v4/devices'
     path = Path(f'{api_path.name}/devices.json')
     if not path.exists():
-        data = json.loads(getDataFromURL(url))
+        data = getJSONDataFromURL(url)
         utils.writeJSONFile(path, data)
     return path
 
@@ -33,7 +35,7 @@ def getDeviceData(device: str) -> Path:
     url = f'https://api.ipsw.me/v4/device/{device}?type=ipsw'
     path = Path(f'{api_path.name}/{device}.json')
     if not path.exists():
-        data = json.loads(getDataFromURL(url))
+        data = getJSONDataFromURL(url)
         utils.writeJSONFile(path, data)
     return path
 
@@ -66,7 +68,7 @@ def getKeysForVersion(device: str, version: str) -> Path:
     keys_path = Path(f'{api_path.name}/{device}_{version}_keys.json')
     if not keys_path.exists():
         print(f'[*] Gettings keys for {device} {version}')
-        keys = json.loads(getDataFromURL(url))
+        keys = getJSONDataFromURL(url)
         if keys:
             utils.writeJSONFile(keys_path, keys)
             return keys_path
