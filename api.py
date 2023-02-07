@@ -20,7 +20,9 @@ def getDataFromURL(url: str) -> str:
         return data
 
 def getJSONDataFromURL(url: str) -> dict:
-    return json.loads(getDataFromURL(url))
+    data = getDataFromURL(url)
+    if data:
+        return json.loads(data)
 
 def getAllDevices() -> Path:
     url = 'https://api.ipsw.me/v4/devices'
@@ -70,7 +72,7 @@ def getKeysForVersion(device: str, version: str) -> Path:
         print(f'[*] Gettings keys for {device} {version}')
         keys = getJSONDataFromURL(url)
         if keys:
-            utils.writeJSONFile(keys_path, keys)
+            utils.writeJSONFile(keys_path.resolve(), keys)
             return keys_path
         else:
             print(f'[*] ipsw.me does not have keys for values: {device} {version}')
