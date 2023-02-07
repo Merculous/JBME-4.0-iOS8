@@ -7,23 +7,27 @@ import paramiko
 from pathlib import Path
 
 import api
+import utils
 
 
 def getDecryptionCMD(device: str, version: str) -> str:
-    data = api.getKeysForVersion(device, version)
-    if data:
-        cmd = (
-            '/usr/local/bin/xpwntool',
-            'OF32/kernelcache.encrypted',
-            'OF32/kernelcache.decrypted',
-            f'-iv {data["iv"]}',
-            f'-k {data["key"]}'
-        )
-        return ' '.join(cmd)
+    keys_path = api.getKeysForVersion(device, version)
+    data = utils.readJSONFile(keys_path)
+    for key in data['keys']:
+        if key['image'] == 'Kernelcache':
+            cmd = (
+                '/usr/local/bin/xpwntool',
+                'OF32/kernelcache.encrypted',
+                'OF32/kernelcache.decrypted',
+                f'-iv {key["iv"]}',
+                f'-k {key["key"]}'
+            )
+            return ' '.join(cmd)
 
 
 def downloadKernel(device: str, version: str) -> None:
-    data = api.getDeviceData(device)
+    device_path = api.getDeviceData(device)
+    data = utils.readJSONFile(device_path)
     url = api.getVersionURL(version, data)
     api.downloadKernelFromURL(url)
 
@@ -107,18 +111,6 @@ def parseOffsets(data: list) -> dict:
             print('[*] Parsing FAILED')
 
 
-def appendDataToJSONFile(path: Path, offsets: dict) -> None:
-    if path.is_file():
-        with open(path) as r:
-            r_data = json.load(r)
-        r_data.update(offsets)
-        with open(path, 'w') as w:
-            json.dump(r_data, w)
-    else:
-        with open(path, 'w') as f:
-            json.dump(offsets, f)
-
-
 def prepareHomeDepotJSON(device: str, version: str, data: dict) -> dict:
     for uname, offsets in data.items():
         offsets = offsets[:-5]
@@ -158,9 +150,9 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     parsed_offests = parseOffsets(offsets_raw)
     if parsed_offests:
         print('[*] Writing offsets to json files')
-        appendDataToJSONFile(Path('payload/offsets.json'), parsed_offests)
+        utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
         depot_offsets = prepareHomeDepotJSON(device, version, parsed_offests)
-        appendDataToJSONFile(Path('HomeDepot.json'), depot_offsets)
+        utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
     print('#'*100)
 
 
@@ -171,8 +163,9 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
 
 
 def getAllOffsets(address: str, user: str, password: str) -> None:
-    devices = api.getAllDevices()
-    for device in devices:
+    devices_path = api.getAllDevices()
+    data = utils.readJSONFile(devices_path)
+    for device in data:
         getAllOffsetsForDevice(address, user, password, device['identifier'])
 
 

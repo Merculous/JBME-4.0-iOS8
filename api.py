@@ -1,22 +1,41 @@
 
 import json
+from pathlib import Path
 from remotezip import RemoteZip
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
+import utils
 
-def getJSONData(url: str) -> dict:
+api_path = Path('api')
+api_path.mkdir()
+
+
+def getDataFromURL(url: str) -> str:
     try:
         data = urlopen(url).read()
     except HTTPError as e:
         print('[*]', url, e)
     else:
-        return json.loads(data)
+        return data
 
 
-def getDeviceData(device: str) -> dict:
+def getAllDevices() -> Path:
+    url = 'https://api.ipsw.me/v4/devices'
+    path = Path(f'{api_path.name}/devices.json')
+    if not path.exists():
+        data = json.loads(getDataFromURL(url))
+        utils.writeJSONFile(path, data)
+    return path
+
+
+def getDeviceData(device: str) -> Path:
     url = f'https://api.ipsw.me/v4/device/{device}?type=ipsw'
-    return getJSONData(url)
+    path = Path(f'{api_path.name}/{device}.json')
+    if not path.exists():
+        data = json.loads(getDataFromURL(url))
+        utils.writeJSONFile(path, data)
+    return path
 
 
 def getVersionURL(version: str, data: dict) -> str:
@@ -39,22 +58,25 @@ def downloadKernelFromURL(url: str) -> None:
                     k.write(f.read(path.filename))
 
 
-def getKeysForVersion(device: str, version: str) -> dict:
-    data = getDeviceData(device)
+def getKeysForVersion(device: str, version: str) -> Path:
+    device_path = getDeviceData(device)
+    data = utils.readJSONFile(device_path)
     buildid = iOSToBuildid(version, data)
     url = f'https://api.ipsw.me/v4/keys/ipsw/{device}/{buildid}'
-    keys = getJSONData(url)
-    print(f'[*] Gettings keys for {device} {version}')
-    if keys:
-        for key in keys['keys']:
-            if key['image'] == 'Kernelcache':
-                return key
-    else:
-        print(f'[*] ipsw.me does not have keys for values: {device} {version}')
+    keys_path = Path(f'{api_path.name}/{device}_{version}_keys.json')
+    if not keys_path.exists():
+        print(f'[*] Gettings keys for {device} {version}')
+        keys = json.loads(getDataFromURL(url))
+        if keys:
+            utils.writeJSONFile(keys_path, keys)
+            return keys_path
+        else:
+            print(f'[*] ipsw.me does not have keys for values: {device} {version}')
+
 
 
 def getiOS8And9VersionsForDevice(device: str) -> list:
-    data = getDeviceData(device)
+    data = utils.readJSONFile(getDeviceData(device))
     versions = []
     for firmware in data['firmwares']:
         version = firmware['version']
@@ -62,8 +84,3 @@ def getiOS8And9VersionsForDevice(device: str) -> list:
             if version not in versions:
                 versions.append(version)
     return versions
-
-
-def getAllDevices() -> dict:
-    url = 'https://api.ipsw.me/v4/devices'
-    return getJSONData(url)
