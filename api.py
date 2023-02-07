@@ -19,10 +19,12 @@ def getDataFromURL(url: str) -> str:
     else:
         return data
 
+
 def getJSONDataFromURL(url: str) -> dict:
     data = getDataFromURL(url)
     if data:
         return json.loads(data)
+
 
 def getAllDevices() -> Path:
     url = 'https://api.ipsw.me/v4/devices'
@@ -35,11 +37,13 @@ def getAllDevices() -> Path:
 
 def getDeviceData(device: str) -> Path:
     url = f'https://api.ipsw.me/v4/device/{device}?type=ipsw'
-    path = Path(f'{api_path.name}/{device}.json')
-    if not path.exists():
+    device_path = Path(f'{api_path.name}/{device}')
+    device_path.mkdir(parents=True, exist_ok=True)
+    device_json = Path(f'{device_path.resolve()}/{device}.json')
+    if not device_json.exists():
         data = getJSONDataFromURL(url)
-        utils.writeJSONFile(path, data)
-    return path
+        utils.writeJSONFile(device_json, data)
+    return device_json
 
 
 def getVersionURL(version: str, data: dict) -> str:
@@ -67,16 +71,18 @@ def getKeysForVersion(device: str, version: str) -> Path:
     data = utils.readJSONFile(device_path)
     buildid = iOSToBuildid(version, data)
     url = f'https://api.ipsw.me/v4/keys/ipsw/{device}/{buildid}'
-    keys_path = Path(f'{api_path.name}/{device}_{version}_keys.json')
-    if not keys_path.exists():
+    keys_path = Path(f'{api_path.name}/{device}/{version}')
+    keys_path.mkdir(parents=True, exist_ok=True)
+    keys_json = Path(f'{keys_path.resolve()}/keys.json')
+    if not keys_json.exists():
         print(f'[*] Gettings keys for {device} {version}')
         keys = getJSONDataFromURL(url)
         if keys:
-            utils.writeJSONFile(keys_path.resolve(), keys)
-            return keys_path
+            utils.writeJSONFile(keys_json.resolve(), keys)
+            return keys_json
         else:
-            print(f'[*] ipsw.me does not have keys for values: {device} {version}')
-
+            print(
+                f'[*] ipsw.me does not have keys for values: {device} {version}')
 
 
 def getiOS8And9VersionsForDevice(device: str) -> list:
