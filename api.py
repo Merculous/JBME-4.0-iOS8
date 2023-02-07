@@ -81,8 +81,7 @@ def getKeysForVersion(device: str, version: str) -> Path:
             utils.writeJSONFile(keys_json.resolve(), keys)
             return keys_json
         else:
-            print(
-                f'[*] ipsw.me does not have keys for values: {device} {version}')
+            print(f'[*] ipsw.me does not have keys for values: {device} {version}')
 
 
 def getiOS8And9VersionsForDevice(device: str) -> list:
