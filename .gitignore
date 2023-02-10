@@ -3,3 +3,9 @@ venv
 __pycache__
 kernels*
 api
+
+index.html
+stage1.bin
+payload/tar
+payload/launchctl
+payload/Cydia.tar
