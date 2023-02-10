@@ -1,9 +1,10 @@
 
 import json
 from pathlib import Path
-from remotezip import RemoteZip
 from urllib.error import HTTPError
 from urllib.request import urlopen
+
+from remotezip import RemoteZip
 
 import utils
 
