@@ -30,9 +30,10 @@ def downloadKernel(device: str, version: str) -> Path:
     data = utils.readJSONFile(device_path)
     if data:
         url = api.getVersionURL(version, data)
+        kernel_str = 'kernelcache.encrypted'
         kernel_path = Path(f'kernels/{device}/{version}')
         kernel_path.mkdir(parents=True, exist_ok=True)
-        kernel_encrypted = Path(f'{kernel_path.resolve()}/kernelcache.encrypted')
+        kernel_encrypted = Path(f'{kernel_path.resolve()}/{kernel_str}')
         api.downloadKernelFromURL(url, kernel_encrypted.resolve())
         return kernel_encrypted
 
@@ -107,7 +108,7 @@ def parseOffsets(data: list) -> dict:
             print('[*] Parsing FAILED')
 
 
-def prepareHomeDepotJSON(device: str, version: str, data: dict) -> dict:
+def initHomeDepotJSON(device: str, version: str, data: dict) -> dict:
     for uname, offsets in data.items():
         offsets = offsets[:-5]
     offsets_dict = {
@@ -133,7 +134,8 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.runCMD(getDecryptionCMD(device, version))
     print('[*] Running OF32')
     client.runCMD(getOF32CMD())
-    client.downloadFile('OF32/kernelcache.encrypted', Path(f'{kernel_path.resolve()}/kernelcache.decrypted'))
+    kernel_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
+    client.downloadFile('OF32/kernelcache.encrypted', kernel_decrypted)
     client.removeKernels()
     print('[*] Reading offsets')
     offsets_raw = client.readFile('OF32/offsets.txt')
@@ -144,7 +146,7 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
         if parsed_offests:
             print('[*] Writing offsets to json files')
             utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
-            depot_offsets = prepareHomeDepotJSON(device, version, parsed_offests)
+            depot_offsets = initHomeDepotJSON(device, version, parsed_offests)
             utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
         print('[*] Adding kernels to ZPAQ archive')
         utils.appendFileToZPAQArchive(Path('kernels'), Path('kernels.zpaq'), 1)
@@ -166,7 +168,8 @@ def getAllOffsets(address: str, user: str, password: str) -> None:
     data = utils.readJSONFile(devices_path)
     if data:
         for device in data:
-            getAllOffsetsForDevice(address, user, password, device['identifier'])
+            name = device['identifier']
+            getAllOffsetsForDevice(address, user, password, name)
 
 
 def main(args: list) -> None:
