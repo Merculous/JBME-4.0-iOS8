@@ -1,1 +1,3 @@
 Make use of "compressed" kernels.
+
+Somehow get paramiko to stop stdout writing from being ended prematurely. This seems to break my code :/
