@@ -15,4 +15,6 @@ to the offset parser gets it to the point where my print for it working has now 
 is not returned, instead being passed as a variable which is written or parsed via the HomeDepot parser
 makes the actual offset parser print that it failed when it should've printed that it worked. Refer to
 git commit (d8573fa4ad9501a3f1cb7ab49e150aa19d86634b) which should actually show you exactly what I'm 
-talking about.
+talking about. UPDATE: Ok, seems like either api folder, kernels folder and or zpaq archive messes with
+getting offsets (I don't remember all of it tbh so I may of missed one thing or another, probably not).
+Also, I had forgotten a critical line in my pre-tihmstar branch on from OF32, now 8.3-9.3.4 finally work.

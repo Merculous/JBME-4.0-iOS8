@@ -23,14 +23,16 @@ def readJSONFile(path: Path) -> dict:
 
 def writeJSONFile(path: Path, data: dict) -> None:
     with open(path, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=1)
 
 
 def updateJSONFile(path: Path, data: dict) -> None:
-    if path:
+    if path.exists():
         original = json.loads(readFile(path))
         original.update(data)
-        writeFile(path, json.dumps(original))
+        writeFile(path, json.dumps(original, indent=1))
+    else:
+        writeFile(path, json.dumps(data, indent=1))
 
 
 def appendFileToZPAQArchive(path: Path, archive: Path, method: int) -> None:
