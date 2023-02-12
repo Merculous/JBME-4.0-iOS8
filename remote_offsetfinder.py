@@ -39,13 +39,7 @@ def downloadKernel(device: str, version: str) -> Path:
 
 
 def getOF32CMD() -> str:
-    cmd = (
-        'OF32/OF32',
-        'OF32/kernelcache.decrypted',
-        '1>OF32/offsets.txt',
-        '2>OF32/error.txt'
-    )
-    return ' '.join(cmd)
+    return 'OF32/OF32 OF32/kernelcache.decrypted'
 
 
 class Client:
@@ -62,11 +56,13 @@ class Client:
         self.sftp = self.ssh.open_sftp()
         #################################
 
-    def runCMD(self, cmd: str) -> None:
+    def runCMD(self, cmd: str) -> tuple:
         if cmd:
             (cmd_in, cmd_out, cmd_err) = self.ssh.exec_command(cmd)
-            print('STDOUT:', [o for o in cmd_out])
-            print('STDERR:', [e for e in cmd_err])
+            output = ([o for o in cmd_out], [e for e in cmd_err])
+            print('STDOUT:', output[0])
+            print('STDERR:', output[1])
+            return output
 
     def listDir(self, path: str) -> list:
         contents = self.sftp.listdir(path)
@@ -132,20 +128,15 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     client.uploadFile(kernel_encrypted.resolve(), 'OF32/kernelcache.encrypted')
     print('[*] Decrypting kernel')
     client.runCMD(getDecryptionCMD(device, version))
-    client.removeFile('OF32/offsets.txt')
     print('[*] Running OF32')
-    client.runCMD(getOF32CMD())
+    offsets_raw = client.runCMD(getOF32CMD())
     kernel_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
     client.downloadFile('OF32/kernelcache.encrypted', kernel_decrypted)
     client.removeKernels()
     print('[*] Reading offsets')
-    offsets_raw = client.readFile('OF32/offsets.txt')
-    of32_error = client.readFile('OF32/error.txt')
-    print('OF32 STDERR:', of32_error)
-    if offsets_raw:
-        client.removeFile('OF32/offsets.txt')
+    if offsets_raw[0]:
         print('[*] Parsing offsets')
-        parsed_offests = parseOffsets(offsets_raw)
+        parsed_offests = parseOffsets(offsets_raw[0])
         if parsed_offests:
             print('[*] Writing offsets to json files')
             utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
