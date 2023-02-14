@@ -94,4 +94,4 @@ def getiOS8And9VersionsForDevice(device: str) -> list:
             if version not in versions:
                 versions.append(version)
     if versions:
-        return versions[2:]  # Remove 9.3.5 and 9.3.6
+        return versions

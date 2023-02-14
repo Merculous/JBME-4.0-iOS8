@@ -1,5 +1,5 @@
 # Steps to get offsets
-1: install zpaq
+1: install zpaq (not implemented yet, but planned)
 2: ./get_jbme_resources.sh
 3: python3 -m venv venv
 4: . venv/bin/activate

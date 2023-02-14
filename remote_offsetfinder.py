@@ -142,8 +142,8 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
             utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
             depot_offsets = initHomeDepotJSON(device, version, parsed_offests)
             utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
-        print('[*] Adding kernels to ZPAQ archive')
-        utils.appendFileToZPAQArchive(Path('kernels'), Path('kernels.zpaq'), 1)
+        # print('[*] Adding kernels to ZPAQ archive')
+        # utils.appendFileToZPAQArchive(Path('kernels'), Path('kernels.zpaq'))
     #################################
     client.sftp.close()  # IMPORTANT
     client.ssh.close()  # IMPORTANT

@@ -23,25 +23,24 @@ def readJSONFile(path: Path) -> dict:
 
 def writeJSONFile(path: Path, data: dict) -> None:
     with open(path, 'w') as f:
-        json.dump(data, f, indent=1)
+        json.dump(data, f, indent=1, sort_keys=True)
 
 
 def updateJSONFile(path: Path, data: dict) -> None:
     if path.exists():
         original = json.loads(readFile(path))
         original.update(data)
-        writeFile(path, json.dumps(original, indent=1))
+        writeFile(path, json.dumps(original, indent=1, sort_keys=True))
     else:
-        writeFile(path, json.dumps(data, indent=1))
+        writeFile(path, json.dumps(data, indent=1, sort_keys=True))
 
 
-def appendFileToZPAQArchive(path: Path, archive: Path, method: int) -> None:
+def appendFileToZPAQArchive(path: Path, archive: Path) -> None:
     cmd = (
         '/usr/bin/zpaq',
         'a',
         archive.name,
-        path.name,
-        f'-m{method}'
+        path.name
     )
     subprocess.run(cmd)
 

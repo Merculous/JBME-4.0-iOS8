@@ -1,20 +1,2 @@
-As of commit 360a6003e03f67faa66b2641e7e8da16ea280d06, so far I've tested
-iPhone4,1. Only versions that are successfull are 8.4.1, 8.4, and 8.3.
-
-I've tried using latest commit from jndok (4c47ead0385f03924c77ac17f3af66f19dcd6b05)
-but for some reason instead of the above versions succeeding, literally all of them
-failed to get offsets. find_allproc() MUST be updated to get all of the offsets.
-
 Neat, the offsets needed to use HomeDepot jailbreak (iOS 8.4.1 version) via custom offsets for
 iPhone4,1 on 8.3 jailbreaks the device :P I did try iPhone5,2 on 8.4 but it isn't working, so far.
-
-Weird, seems like every time I mess with the way offsets are being parsed (before offsets were just
-returned to be used later, now I use the offsets in a variable) breaks my offset parsing code to
-fail when it worked without changing the way offsets are being handled. So, returning the raw offsets
-to the offset parser gets it to the point where my print for it working has now changed when the data
-is not returned, instead being passed as a variable which is written or parsed via the HomeDepot parser
-makes the actual offset parser print that it failed when it should've printed that it worked. Refer to
-git commit (d8573fa4ad9501a3f1cb7ab49e150aa19d86634b) which should actually show you exactly what I'm 
-talking about. UPDATE: Ok, seems like either api folder, kernels folder and or zpaq archive messes with
-getting offsets (I don't remember all of it tbh so I may of missed one thing or another, probably not).
-Also, I had forgotten a critical line in my pre-tihmstar branch on from OF32, now 8.3-9.3.4 finally work.
