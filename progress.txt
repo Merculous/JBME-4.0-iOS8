@@ -1,2 +1,5 @@
 Neat, the offsets needed to use HomeDepot jailbreak (iOS 8.4.1 version) via custom offsets for
 iPhone4,1 on 8.3 jailbreaks the device :P I did try iPhone5,2 on 8.4 but it isn't working, so far.
+
+Apparently, the api folder messes with getting offsets so in order to have stdout give us our offsets,
+it needs to be removed before we start... WTF???

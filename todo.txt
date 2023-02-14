@@ -1,5 +1,3 @@
 Make use of "compressed" kernels.
 
-Skip over all devices that are 64-bit.
-
 Try to minimize the amount of kernel downloading.

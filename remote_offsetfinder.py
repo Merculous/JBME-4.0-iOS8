@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import sys
 from pathlib import Path
 
@@ -104,18 +105,17 @@ def parseOF32Output(data: list) -> dict:
             print('[*] Parsing FAILED')
 
 
-def initHomeDepotJSON(device: str, version: str, data: dict) -> dict:
-    for uname, offsets in data.items():
-        offsets = offsets[:-5]
-    offsets_dict = {
-        device: {
-            version: {
-                'uname': uname,
-                'offsets': offsets
-            }
-        }
-    }
-    return offsets_dict
+def initHomeDepotJSON(device: str, version: str, data: dict) -> None:
+    info = {device: {version: data}}
+    path = Path('HomeDepot.json')
+    if path.exists():
+        data = utils.readJSONFile(path)
+        for identifier in data:
+            if identifier == device:
+                data[device][version] = info[device][version]
+        utils.writeJSONFile(path, data)
+    else:
+        utils.writeJSONFile(path, info)
 
 
 def parseOffsets(device: str, version: str, of32_output: list) -> None:
@@ -125,8 +125,7 @@ def parseOffsets(device: str, version: str, of32_output: list) -> None:
         if parsed_offests:
             print('[*] Writing offsets to json files')
             utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
-            depot_offsets = initHomeDepotJSON(device, version, parsed_offests)
-            utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
+            initHomeDepotJSON(device, version, parsed_offests)
 
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
