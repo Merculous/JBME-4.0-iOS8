@@ -89,7 +89,7 @@ class Client:
         return data
 
 
-def parseOffsets(data: list) -> dict:
+def parseOF32Output(data: list) -> dict:
     if len(data) > 1:
         uname = data[0].split('"')[1]
         info = {uname: []}
@@ -118,6 +118,17 @@ def initHomeDepotJSON(device: str, version: str, data: dict) -> dict:
     return offsets_dict
 
 
+def parseOffsets(device: str, version: str, of32_output: list) -> None:
+    if of32_output:
+        print('[*] Parsing offsets')
+        parsed_offests = parseOF32Output(of32_output)
+        if parsed_offests:
+            print('[*] Writing offsets to json files')
+            utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
+            depot_offsets = initHomeDepotJSON(device, version, parsed_offests)
+            utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
+
+
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
     print(f'[*] Downloading kernel for {device} {version}')
     kernel_path = Path(f'kernels/{device}/{version}')
@@ -129,21 +140,11 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
     print('[*] Decrypting kernel')
     client.runCMD(getDecryptionCMD(device, version))
     print('[*] Running OF32')
-    offsets_raw = client.runCMD(getOF32CMD())
+    offsets_raw = client.runCMD(getOF32CMD())[0]
     kernel_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
     client.downloadFile('OF32/kernelcache.encrypted', kernel_decrypted)
     client.removeKernels()
-    print('[*] Reading offsets')
-    if offsets_raw[0]:
-        print('[*] Parsing offsets')
-        parsed_offests = parseOffsets(offsets_raw[0])
-        if parsed_offests:
-            print('[*] Writing offsets to json files')
-            utils.updateJSONFile(Path('payload/offsets.json'), parsed_offests)
-            depot_offsets = initHomeDepotJSON(device, version, parsed_offests)
-            utils.updateJSONFile(Path('HomeDepot.json'), depot_offsets)
-        # print('[*] Adding kernels to ZPAQ archive')
-        # utils.appendFileToZPAQArchive(Path('kernels'), Path('kernels.zpaq'))
+    parseOffsets(device, version, offsets_raw)
     #################################
     client.sftp.close()  # IMPORTANT
     client.ssh.close()  # IMPORTANT
@@ -161,10 +162,22 @@ def getAllOffsetsForDevice(address: str, user: str, password: str, device: str) 
 def getAllOffsets(address: str, user: str, password: str) -> None:
     devices_path = api.getAllDevices()
     data = utils.readJSONFile(devices_path)
+    platforms_supported = (
+        's5l8940x',
+        's5l8942x',
+        's5l8945x',
+        's5l8947x',
+        's5l8950x',
+        's5l8955x'
+    )
     if data:
-        for device in data:
-            name = device['identifier']
-            getAllOffsetsForDevice(address, user, password, name)
+        for platform in platforms_supported:
+            for device in data:
+                name = device['identifier']
+                if device['platform'] == platform:
+                    getAllOffsetsForDevice(address, user, password, name)
+                else:
+                    print(f'Skipping device: {name}')
 
 
 def main(args: list) -> None:
