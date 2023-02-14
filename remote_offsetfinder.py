@@ -106,6 +106,8 @@ def parseOF32Output(data: list) -> dict:
 
 
 def initHomeDepotJSON(device: str, version: str, data: dict) -> None:
+    for uname, offsets in data.items():
+        data[uname] = offsets[:-5]
     info = {device: {version: data}}
     path = Path('HomeDepot.json')
     if path.exists():
