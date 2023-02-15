@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import json
 import sys
 from pathlib import Path
 
@@ -8,6 +7,12 @@ import paramiko
 
 import api
 import utils
+
+kernel_encrypted = 'kernelcache.encrypted'
+kernel_decrypted = 'kernelcache.decrypted'
+of32_kernel_encrypted = f'OF32/{kernel_encrypted}'
+of32_kernel_decrypted = f'OF32/{kernel_decrypted}'
+of32_cmd = f'OF32/OF32 {of32_kernel_decrypted}'
 
 
 def getDecryptionCMD(device: str, version: str) -> str:
@@ -18,29 +23,23 @@ def getDecryptionCMD(device: str, version: str) -> str:
             if key['image'] == 'Kernelcache':
                 cmd = (
                     '/usr/local/bin/xpwntool',
-                    'OF32/kernelcache.encrypted',
-                    'OF32/kernelcache.decrypted',
+                    of32_kernel_encrypted,
+                    of32_kernel_decrypted,
                     f'-iv {key["iv"]}',
                     f'-k {key["key"]}'
                 )
                 return ' '.join(cmd)
 
 
-def downloadKernel(device: str, version: str) -> Path:
+def downloadKernel(device: str, version: str) -> None:
     device_path = api.getDeviceData(device)
     data = utils.readJSONFile(device_path)
     if data:
         url = api.getVersionURL(version, data)
-        kernel_str = 'kernelcache.encrypted'
         kernel_path = Path(f'kernels/{device}/{version}')
         kernel_path.mkdir(parents=True, exist_ok=True)
-        kernel_encrypted = Path(f'{kernel_path.resolve()}/{kernel_str}')
-        api.downloadKernelFromURL(url, kernel_encrypted.resolve())
-        return kernel_encrypted
-
-
-def getOF32CMD() -> str:
-    return 'OF32/OF32 OF32/kernelcache.decrypted'
+        path_encrypted = Path(f'{kernel_path.resolve()}/{kernel_encrypted}')
+        api.downloadKernelFromURL(url, path_encrypted.resolve())
 
 
 class Client:
@@ -131,19 +130,25 @@ def parseOffsets(device: str, version: str, of32_output: list) -> None:
 
 
 def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
-    print(f'[*] Downloading kernel for {device} {version}')
     kernel_path = Path(f'kernels/{device}/{version}')
-    kernel_encrypted = downloadKernel(device, version)
+    path_encrypted = Path(f'{kernel_path.resolve()}/kernelcache.encrypted')
+    path_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
     client = Client(address, user, password)
-    client.removeKernels()
-    print('[*] Uploading kernel')
-    client.uploadFile(kernel_encrypted.resolve(), 'OF32/kernelcache.encrypted')
-    print('[*] Decrypting kernel')
-    client.runCMD(getDecryptionCMD(device, version))
+    if path_decrypted.exists():
+        print('[*] Using local decrypted kernelcache')
+        client.uploadFile(path_decrypted, of32_kernel_decrypted)
+    else:
+        if path_encrypted.exists():
+            print('[*] Using local encrypted kernelcache')
+            client.uploadFile(path_encrypted, of32_kernel_encrypted)
+            client.runCMD(getDecryptionCMD(device, version))
+        else:
+            print('[*] Downloading kernelcache')
+            downloadKernel(device, version)
+            client.uploadFile(path_encrypted, of32_kernel_encrypted)
+            client.runCMD(getDecryptionCMD(device, version))
     print('[*] Running OF32')
-    offsets_raw = client.runCMD(getOF32CMD())[0]
-    kernel_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
-    client.downloadFile('OF32/kernelcache.encrypted', kernel_decrypted)
+    offsets_raw = client.runCMD(of32_cmd)[0]
     client.removeKernels()
     parseOffsets(device, version, offsets_raw)
     #################################

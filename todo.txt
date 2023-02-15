@@ -1,3 +1,5 @@
 Make use of "compressed" kernels.
 
 Try to minimize the amount of kernel downloading.
+
+initHomeDepotJSON() still not working correctly.
