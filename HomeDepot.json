@@ -1,7 +1,7 @@
 {
  "AppleTV3,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:47:26 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8947X": [
     "0x002d37f4",
     "0x002d58d4",
     "0x0001cf84",
@@ -15,13 +15,29 @@
     "0x000b04c0",
     "0x003f37d4",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:47:26 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8947X"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Thu Feb 18 15:13:33 PST 2016; root:xnu-2784.40.6~44/RELEASE_ARM_S5L8947X": [
+    "0x002d38b8",
+    "0x002d5998",
+    "0x0001cfc4",
+    "0x000c26a8",
+    "0x003abcdc",
+    "0x000b0738",
+    "0x000c26aa",
+    "0x000b047c",
+    "0x003f2128",
+    "0x003a111c",
+    "0x000b04c0",
+    "0x003f3818",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -35,13 +51,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:47:10 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8940X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:24 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8940X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,2": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -55,13 +104,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:47:10 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8940X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:24 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8940X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,3": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -75,13 +157,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:47:10 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8940X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:24 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8940X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,4": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -95,13 +210,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:46 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8942X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:26:26 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8942X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,5": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -115,13 +263,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:46 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8942X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:26:26 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8942X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,6": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -135,13 +316,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:46 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8942X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:26:26 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8942X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad2,7": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -155,13 +369,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:46 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8942X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:26:26 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8942X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -175,13 +422,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:48:55 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8945X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:41 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8945X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,2": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -195,13 +475,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:48:55 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8945X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:41 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8945X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,3": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -215,13 +528,46 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:48:06 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8945X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:48:55 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8945X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:41 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8945X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,4": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -235,13 +581,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:50:12 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8955X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:36 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8955X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,5": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -255,13 +634,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:50:12 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8955X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:36 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8955X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPad3,6": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -275,13 +687,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:43:07 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8955X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:50:12 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8955X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:36 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8955X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPhone4,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -295,13 +740,51 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:45:16 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8940X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:47:10 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8940X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:24 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8940X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c",
+    "0x8001e075",
+    "0x00000000",
+    "0x00000000",
+    "0x8001e0a1",
+    "0x8001e0c1"
+   ]
   }
  },
  "iPhone5,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -315,13 +798,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:37 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8950X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:44 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8950X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPhone5,2": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -335,13 +851,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:37 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8950X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:44 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8950X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPhone5,3": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -355,13 +904,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:37 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8950X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:44 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8950X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPhone5,4": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X": [
     "0x002d96e4",
     "0x002db804",
     "0x0001d2e0",
@@ -375,13 +957,46 @@
     "0x000b35e0",
     "0x003f996c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:44:04 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8950X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:37 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8950X": [
+    "0x002d9758",
+    "0x002db878",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:24:44 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8950X": [
+    "0x002d9864",
+    "0x002db984",
+    "0x0001d300",
+    "0x000c65f4",
+    "0x003b1cdc",
+    "0x000b386c",
+    "0x000c65f6",
+    "0x000b35a8",
+    "0x003f8258",
+    "0x003a711c",
+    "0x000b3600",
+    "0x003f9970",
+    "0x0000008c"
+   ]
   }
  },
  "iPod5,1": {
   "8.3": {
-   "offsets": [
+   "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X": [
     "0x002d4938",
     "0x002d6a18",
     "0x0001d060",
@@ -395,8 +1010,41 @@
     "0x000b14c0",
     "0x003f480c",
     "0x0000008c"
-   ],
-   "uname": "Darwin Kernel Version 14.0.0: Sun Mar 29 19:46:45 PDT 2015; root:xnu-2784.20.34~2/RELEASE_ARM_S5L8942X"
+   ]
+  },
+  "8.4": {
+   "Darwin Kernel Version 14.0.0: Wed Jun 24 00:46:46 PDT 2015; root:xnu-2784.30.7~30/RELEASE_ARM_S5L8942X": [
+    "0x002d49b8",
+    "0x002d6a98",
+    "0x0001d0a0",
+    "0x000c36f8",
+    "0x003accdc",
+    "0x000b1724",
+    "0x000c36fa",
+    "0x000b1468",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14c0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
+  },
+  "8.4.1": {
+   "Darwin Kernel Version 14.0.0: Wed Aug  5 19:26:26 PDT 2015; root:xnu-2784.40.6~18/RELEASE_ARM_S5L8942X": [
+    "0x002d4a1c",
+    "0x002d6afc",
+    "0x0001d0a0",
+    "0x000c3718",
+    "0x003accdc",
+    "0x000b1744",
+    "0x000c371a",
+    "0x000b1488",
+    "0x003f3128",
+    "0x003a211c",
+    "0x000b14e0",
+    "0x003f4810",
+    "0x0000008c"
+   ]
   }
  }
 }
