@@ -137,11 +137,11 @@ def parseOffsets(device: str, version: str, of32_output: list) -> None:
             initHomeDepotJSON(device, version, parsed_offests)
 
 
-def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
+def initKernelDecryption(client: Client, device: str, version: str) -> None:
     kernel_path = Path(f'kernels/{device}/{version}')
     path_encrypted = Path(f'{kernel_path.resolve()}/kernelcache.encrypted')
     path_decrypted = Path(f'{kernel_path.resolve()}/kernelcache.decrypted')
-    client = Client(address, user, password)
+    print(f'[*] Beginning kernel decryption process for {device} {version}')
     if path_decrypted.exists():
         print('[*] Using local decrypted kernelcache')
         client.uploadFile(path_decrypted, of32_kernel_decrypted)
@@ -155,6 +155,11 @@ def getOffsets(address: str, user: str, password: str, device: str, version: str
             downloadKernel(device, version)
             client.uploadFile(path_encrypted, of32_kernel_encrypted)
             client.runCMD(getDecryptionCMD(device, version))
+
+
+def getOffsets(address: str, user: str, password: str, device: str, version: str) -> None:
+    client = Client(address, user, password)
+    initKernelDecryption(client, device, version)
     print('[*] Running OF32')
     offsets_raw = client.runCMD(of32_cmd)[0]
     client.removeKernels()
